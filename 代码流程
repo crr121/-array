@@ -1,0 +1,69 @@
+
+原文的匹配顺序：A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
+密文的匹配顺序：Z,Y,X,W,V,U,T,S,R,Q,P,O,N,M,L,K,J,I,H,G,F,E,D,C,B,A,z,y,x,w,v,u,t,s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b 
+首先我们先分别定义一个数组存取原文需要匹配的数组和密文需要匹配的数组
+这里涉及到字符串和ASCII码的转换
+对于字符转换为ASCII--->charcodeat()
+对于ASCII转换为字符---->fromcharcode()
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script>
+			//定义一个数组存取A....Z
+			//A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z 
+			var str_arr=[];
+			for(var i="A".charCodeAt();i<="Z".charCodeAt();i++){//这里的i是从A的ASCII开始的，不能用于数组str_arr的遍历
+				//这里直接用str_arr.length来自动增加
+				//刚开始的时候为0，遍历一个加一个
+				str_arr[str_arr.length++]=String.fromCharCode(i);
+			}
+			//document.write(str_arr);
+			//下面继续在str_arr数组里面存储a----z
+			//同样利用for循环遍历a----z，再依次加入到数组当中
+			for(var i="a".charCodeAt();i<="z".charCodeAt();i++){
+				str_arr[str_arr.length++]=String.fromCharCode(i);
+			}
+			//document.write(str_arr);
+			//定义好原文的数组之后，下面我们按照加密的方法定义另外一个密文的数组
+			//他们的下标是相同的。这里我们后面可以直接用到下标相同的对应关系，直接替换为密文
+			//Z,Y,X,W,V,U,T,S,R,Q,P,O,N,M,L,K,J,I,H,G,F,E,D,C,B,A,z,y,x,w,v,u,t,s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a
+			var pwd_arr=[];
+			for(var i="Z".charCodeAt();i>="A".charCodeAt();i--){
+				pwd_arr[pwd_arr.length++]=String.fromCharCode(i);
+			}
+			//document.write(pwd_arr);
+			for(var i="z".charCodeAt();i>="a".charCodeAt();i--){
+				pwd_arr[pwd_arr.length++]=String.fromCharCode(i);
+			}
+			//document.write(pwd_arr);
+			//定义好原文和密文的数组之后，那么下面我们就可以随便输入一个字符串进行加密了
+			//var str=[];
+			//由于字符串本身就是一个数组，可以当作数组来用
+			//所以可以直接存进数组str中
+			var str=prompt("请输入您想要加密的字符串：");
+			//这里的str就是一个数组
+			//下面循环遍历数组，当为字母的时候进行加密，否则就直接放在密文里面；
+			//这里定义加密后的密文为一个字符串
+			var pwd="";
+			for(var i=0;i<str.length;i++){
+				if((str[i]>="a"&&str[i]<="z") || (str[i]>="A"&&str[i]<="Z")){
+					//如果满足是字母的话，下面进行加密
+					//先遍历原文，根据下标相同找到对应的密文，
+					for(var j=0;j<str_arr.length;j++){
+						if(str[i]==str[j]){
+							pwd+=pwd_arr[j];
+							//这里原文中的下标就是密文的下标
+						}
+					}
+				}else{
+					pwd+=str[i];//如果是数字的话，就直接丢进pwd里面
+				}
+			}
+			document.write(pwd);	
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
